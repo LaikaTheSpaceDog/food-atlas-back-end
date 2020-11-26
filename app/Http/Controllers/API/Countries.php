@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Country;
+use App\Http\Requests\API\CountryRequest;
+use App\Http\Resources\API\CountryResource;
 
 class Countries extends Controller
 {
@@ -24,10 +26,11 @@ class Countries extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CountryRequest $request)
     {
         $data = $request->all();
-        return Country::create($data);
+        $country = Country::create($data);
+        return new CountryResource($country);
     }
 
     /**
@@ -38,7 +41,7 @@ class Countries extends Controller
      */
     public function show(Country $country)
     {
-        return $country;
+        return new CountryResource($country);
     }
 
     /**
@@ -48,11 +51,12 @@ class Countries extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CountryRequest $request, $id)
     {
+        $country = Country::find($id);
         $data = $request->all();
         $country->fill($data)->save();
-        return $country;
+        return new CountryResource($country);
     }
 
     /**
