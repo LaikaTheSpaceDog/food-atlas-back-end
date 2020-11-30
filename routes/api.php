@@ -20,11 +20,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(["prefix" => "countries"], function(){
-    Route::get("", [Countries::class, "index"]);
-    Route::post("", [Countries::class, "store"]);
+    Route::get("", [Countries::class, "index"]); // see all countries
+    Route::post("", [Countries::class, "store"]); // add a new country
     Route::group(["prefix" => "{country}"], function(){
-        Route::get("", [Countries::class, "show"]);
-        Route::put("", [Countries::class, "update"]);
-        Route::delete("", [Countries::class, "destroy"]);
+        Route::get("", [Countries::class, "show"]); // see a specific country
+        Route::put("", [Countries::class, "update"]); // update a specific country
+        Route::delete("", [Countries::class, "destroy"]); // delete a specific country
     });
+});
+
+
+Route::group(["prefix" => "users/{user}/countries"], function(){
+    Route::get("", [Users\Countries::class, "index"]); // see all countries liked by user
+    Route::post("", [Users\Countries::class, "store"])->middleware('auth:api'); // add new country to user
 });

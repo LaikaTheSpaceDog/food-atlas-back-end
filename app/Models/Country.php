@@ -9,6 +9,8 @@ class Country extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+    
     protected $fillable = [
         'NAME', 
         'CONTINENT',
@@ -17,4 +19,9 @@ class Country extends Model
         'PHOTO',
         'RECIPE'
     ];
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }
