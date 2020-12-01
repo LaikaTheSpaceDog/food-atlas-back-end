@@ -32,10 +32,13 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         });
     });
 
-
     Route::group(["prefix" => "users/{user}/countries"], function(){
         Route::get("", [UserCountries::class, "index"]); // see all countries liked by user
         Route::post("", [UserCountries::class, "store"]); // add new country to user
     });
 
+    // public routes
+    Route::post('/login', 'API\Auth\ApiAuthController@login')->name('login.api');
+    Route::post('/register','API\Auth\ApiAuthController@register')->name('register.api');
+    Route::post('/logout', 'API\Auth\ApiAuthController@logout')->name('logout.api');
 });
