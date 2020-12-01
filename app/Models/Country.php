@@ -24,4 +24,11 @@ class Country extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public static function fromStrings(array $strings) : Collection
+    {
+        return collect($strings)->map(fn($str) => trim($str))
+            ->unique()
+            ->map(fn($str) => Country::firstOrCreate(["name"=>$str]));
+    }
 }

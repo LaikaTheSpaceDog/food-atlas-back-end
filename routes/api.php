@@ -33,5 +33,5 @@ Route::group(["prefix" => "countries"], function(){
 
 Route::group(["prefix" => "users/{user}/countries"], function(){
     Route::get("", [UserCountries::class, "index"]); // see all countries liked by user
-    Route::post("", [UserCountries::class, "store"])->middleware('auth:api'); // add new country to user
+    Route::post("", [UserCountries::class, "store"]); // add new country to user
 });

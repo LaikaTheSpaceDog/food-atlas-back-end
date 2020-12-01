@@ -46,4 +46,11 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Country::class);
     }
+
+    public function setCountries(array $strings) : User
+    {
+        $countries = Country::fromStrings($strings);
+        $this->countries()->sync($countries->pluck("id"));
+        return $this;
+    }
 }

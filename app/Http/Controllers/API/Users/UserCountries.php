@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API\Users;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\API\CountryResource;
-use App\Http\Requests\API\Users\UserCountryRequest;
+use App\Http\Requests\API\Users\UserCountriesRequest;
 use App\Models\Country;
 use App\Models\User;
 
