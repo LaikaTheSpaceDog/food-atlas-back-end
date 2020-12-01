@@ -5,8 +5,11 @@ namespace App\Http\Controllers\API\Users;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\API\CountryResource;
+use App\Http\Requests\API\Users\UserCountryRequest;
+use App\Models\Country;
+use App\Models\User;
 
-class Countries extends Controller
+class UserCountries extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,7 +27,7 @@ class Countries extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, User $user)
+    public function store(UserCountriesRequest $request, User $user)
     {
         $currentUser = User::find($user->id);
         $currentUser->countries()->attach($request->id);

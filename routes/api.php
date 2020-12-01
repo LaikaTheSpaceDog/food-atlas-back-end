@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\Countries;
+use App\Http\Controllers\API\Users\UserCountries;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,6 @@ Route::group(["prefix" => "countries"], function(){
 
 
 Route::group(["prefix" => "users/{user}/countries"], function(){
-    Route::get("", [Users\Countries::class, "index"]); // see all countries liked by user
-    Route::post("", [Users\Countries::class, "store"])->middleware('auth:api'); // add new country to user
+    Route::get("", [UserCountries::class, "index"]); // see all countries liked by user
+    Route::post("", [UserCountries::class, "store"])->middleware('auth:api'); // add new country to user
 });
