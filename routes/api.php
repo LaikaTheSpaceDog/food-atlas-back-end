@@ -16,11 +16,23 @@ use App\Http\Controllers\API\Users\UserCountries;
 |
 */
 
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
 Route::group(['middleware' => ['cors', 'json.response']], function () {
 
-    Route::middleware('auth:api')->get('/user', function (Request $request) {
-        return $request->user();
-    });
+    // public routes
+    
+    Route::post('/login', 'API\Auth\ApiAuthController@login')->name('login.api');
+    Route::post('/register','API\Auth\ApiAuthController@register')->name('register.api');
+});
+
+Route::middleware('auth:api')->group(function () {
+    
+    //protected routes
+
+    Route::post('/logout', 'API\Auth\ApiAuthController@logout')->name('logout.api');
 
     Route::group(["prefix" => "countries"], function(){
         Route::get("", [Countries::class, "index"]); // see all countries
@@ -37,8 +49,4 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::post("", [UserCountries::class, "store"]); // add new country to user
     });
 
-    // public routes
-    Route::post('/login', 'API\Auth\ApiAuthController@login')->name('login.api');
-    Route::post('/register','API\Auth\ApiAuthController@register')->name('register.api');
-    Route::post('/logout', 'API\Auth\ApiAuthController@logout')->name('logout.api');
 });
