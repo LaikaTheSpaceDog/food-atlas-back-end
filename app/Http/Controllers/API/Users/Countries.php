@@ -26,7 +26,9 @@ class Countries extends Controller
      */
     public function store(Request $request, User $user)
     {
-    
+        $currentUser = User::find($user->id);
+        $currentUser->countries()->attach($request->id);
+        return CountryResource($currentUser);
     }
 
     /**
