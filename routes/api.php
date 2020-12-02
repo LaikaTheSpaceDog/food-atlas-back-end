@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\Countries;
 use App\Http\Controllers\API\Users\UserCountries;
+use App\Http\Controllers\API\Auth\ApiAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,15 +25,15 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
     // public routes
     
-    Route::post('/login', 'API\Auth\ApiAuthController@login')->name('login.api');
-    Route::post('/register','API\Auth\ApiAuthController@register')->name('register.api');
+    Route::post('/login', [ApiAuthController::class, 'login'])->name('login.api');
+    Route::post('/register',[ApiAuthController::class, 'register'])->name('register.api');
 });
 
 Route::middleware('auth:api')->group(function () {
     
     //protected routes
 
-    Route::post('/logout', 'API\Auth\ApiAuthController@logout')->name('logout.api');
+    Route::post('/logout', [ApiAuthController::class, 'logout'])->name('logout.api');
 
     Route::group(["prefix" => "countries"], function(){
         Route::get("", [Countries::class, "index"]); // see all countries
