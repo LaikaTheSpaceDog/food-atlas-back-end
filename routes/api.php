@@ -27,6 +27,13 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     
     Route::post('/login', [ApiAuthController::class, 'login'])->name('login.api');
     Route::post('/register',[ApiAuthController::class, 'register'])->name('register.api');
+
+    Route::group(["prefix" => "countries"], function(){
+        Route::get("", [Countries::class, "index"]); // see all countries
+        Route::group(["prefix" => "{country}"], function(){
+            Route::get("", [Countries::class, "show"]); // see a specific country
+        });
+    });
 });
 
 Route::middleware('auth:api')->group(function () {
@@ -36,12 +43,10 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [ApiAuthController::class, 'logout'])->name('logout.api');
 
     Route::group(["prefix" => "countries"], function(){
-        Route::get("", [Countries::class, "index"]); // see all countries
-        Route::post("", [Countries::class, "store"]); // add a new country
+        Route::post("", [Countries::class, "store"])->middleware('api.admin'); // add a new country
         Route::group(["prefix" => "{country}"], function(){
-            Route::get("", [Countries::class, "show"]); // see a specific country
-            Route::put("", [Countries::class, "update"]); // update a specific country
-            Route::delete("", [Countries::class, "destroy"]); // delete a specific country
+            Route::put("", [Countries::class, "update"])->middleware('api.admin'); // update a specific country
+            Route::delete("", [Countries::class, "destroy"])->middleware('api.admin'); // delete a specific country
         });
     });
 
