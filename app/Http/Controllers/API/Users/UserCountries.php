@@ -19,7 +19,11 @@ class UserCountries extends Controller
      */
     public function index(User $user)
     {
-        return CountryResource::collection($user->countries);
+        if (auth()->user()->id === $user->id ){
+            return CountryResource::collection($user->countries);
+        } else {
+            return "You are not allowed to access other user's data.";
+        }
     }
 
     /**
@@ -30,8 +34,12 @@ class UserCountries extends Controller
      */
     public function store(UserCountriesRequest $request, User $user)
     {
-        $user->setCountries($request->get("countries"));
-        return new UserCountriesResource($user);
+        if(auth()->user()->id === $user->id ){
+            $user->setCountries($request->get("countries"));
+            return new UserCountriesResource($user);
+        } else {
+            return "You are not allowed to update other user's data.";
+        }
     }
 
     /**

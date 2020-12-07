@@ -54,5 +54,4 @@ Route::middleware('auth:api')->group(function () {
         Route::get("", [UserCountries::class, "index"]); // see all countries liked by user
         Route::post("", [UserCountries::class, "store"]); // add new country to user
     });
-
 });
