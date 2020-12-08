@@ -21,9 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//public routes
 Route::group(['middleware' => ['cors', 'json.response']], function () {
-
-    // public routes
     
     Route::post('/login', [ApiAuthController::class, 'login'])->name('login.api');
     Route::post('/register',[ApiAuthController::class, 'register'])->name('register.api');
@@ -36,12 +35,12 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     });
 });
 
+//protected routes
 Route::middleware('auth:api')->group(function () {
     
-    //protected routes
-
     Route::post('/logout', [ApiAuthController::class, 'logout'])->name('logout.api');
 
+    //admin routes
     Route::group(["prefix" => "countries"], function(){
         Route::post("", [Countries::class, "store"])->middleware('api.admin'); // add a new country
         Route::group(["prefix" => "{country}"], function(){
@@ -50,6 +49,7 @@ Route::middleware('auth:api')->group(function () {
         });
     });
 
+    //user specific routes
     Route::group(["prefix" => "users/{user}/countries"], function(){
         Route::get("", [UserCountries::class, "index"]); // see all countries liked by user
         Route::post("", [UserCountries::class, "store"]); // add new country to user

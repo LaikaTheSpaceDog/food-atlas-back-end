@@ -22,7 +22,7 @@ class UserCountries extends Controller
         if (auth()->user()->id === $user->id ){
             return CountryResource::collection($user->countries);
         } else {
-            return "You are not allowed to access other user's data.";
+            return "You are not allowed to access another user's data.";
         }
     }
 
@@ -38,7 +38,7 @@ class UserCountries extends Controller
             $user->setCountries($request->get("countries"));
             return new UserCountriesResource($user);
         } else {
-            return "You are not allowed to update other user's data.";
+            return "You are not allowed to update another user's data.";
         }
     }
 
