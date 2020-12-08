@@ -24,7 +24,6 @@ class UserCountriesRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => ["required", "string"],
             "countries" => ["required", "array"],
             "countries.*" => ["string"]
         ];
