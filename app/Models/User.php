@@ -50,7 +50,7 @@ class User extends Authenticatable
     public function setCountries(array $strings) : User
     {
         $countries = Country::fromStrings($strings);
-        $this->countries()->sync($countries->pluck("id"));
+        $this->countries()->attach($countries->pluck("id"));
         return $this;
     }
 }
