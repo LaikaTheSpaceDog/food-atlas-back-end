@@ -17,13 +17,9 @@ class UserCountries extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(User $user)
+    public function index()
     {
-        if (auth()->user()->id === $user->id ){
-            return CountryResource::collection($user->countries);
-        } else {
-            return "You are not allowed to access another user's data.";
-        }
+        return CountryResource::collection(auth()->user()->countries);
     }
 
     /**
@@ -32,14 +28,11 @@ class UserCountries extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserCountriesRequest $request, User $user)
+    public function store(UserCountriesRequest $request)
     {
-        if(auth()->user()->id === $user->id ){
-            $user->setCountries($request->get("countries"));
-            return new UserCountriesResource($user);
-        } else {
-            return "You are not allowed to update another user's data.";
-        }
+        $user = auth()->user();
+        $user->setCountries($request->get("countries"));
+        return new UserCountriesResource($user);
     }
 
     /**
