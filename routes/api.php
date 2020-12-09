@@ -17,35 +17,27 @@ use App\Http\Controllers\API\Auth\ApiAuthController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 //public routes
-Route::group(['middleware' => ['cors', 'json.response']], function () {
+Route::group(["middleware" => ["cors", "json.response"]], function () {
     
-    Route::post('/login', [ApiAuthController::class, 'login'])->name('login.api');
-    Route::post('/register',[ApiAuthController::class, 'register'])->name('register.api');
+    Route::post("/login", [ApiAuthController::class, "login"])->name("login.api");
+    Route::post("/register",[ApiAuthController::class, "register"])->name("register.api");
 
-    Route::group(["prefix" => "countries"], function(){
-        Route::get("", [Countries::class, "index"]); // see all countries
-        Route::group(["prefix" => "{country}"], function(){
-            Route::get("", [Countries::class, "show"]); // see a specific country
-        });
-    });
+    Route::get("/countries", [Countries::class, "index"]); // see all countries
+    Route::get("/countries/{country}", [Countries::class, "show"]); // see a specific country
 });
 
 //protected routes
-Route::middleware('auth:api')->group(function () {
+Route::middleware("auth:api")->group(function () {
     
-    Route::post('/logout', [ApiAuthController::class, 'logout'])->name('logout.api');
+    Route::post("/logout", [ApiAuthController::class, "logout"])->name("logout.api");
 
     //admin routes
-    Route::group(["prefix" => "countries"], function(){
-        Route::post("", [Countries::class, "store"])->middleware('api.admin'); // add a new country
+    Route::group(["prefix" => "countries", "middleware" => "api.admin"], function(){
+        Route::post("", [Countries::class, "store"]); // add a new country
         Route::group(["prefix" => "{country}"], function(){
-            Route::put("", [Countries::class, "update"])->middleware('api.admin'); // update a specific country
-            Route::delete("", [Countries::class, "destroy"])->middleware('api.admin'); // delete a specific country
+            Route::put("", [Countries::class, "update"]); // update a specific country
+            Route::delete("", [Countries::class, "destroy"]); // delete a specific country
         });
     });
 
