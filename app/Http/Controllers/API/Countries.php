@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Country;
 use App\Http\Requests\API\CountryRequest;
+use App\Http\Requests\API\CountryListRequest;
 use App\Http\Resources\API\CountryResource;
 
 class Countries extends Controller
@@ -26,11 +27,11 @@ class Countries extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CountryRequest $request)
+    public function store(CountryListRequest $request) // new request
     {
-        $data = $request->all();
-        $country = Country::create($data);
-        return new CountryResource($country);
+        $data = collect($request->countries);
+        $data->map(fn($country) => Country::create($country));
+        return CountryResource::collection($data);
     }
 
     /**
