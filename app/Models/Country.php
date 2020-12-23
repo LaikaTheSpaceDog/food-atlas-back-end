@@ -30,6 +30,6 @@ class Country extends Model
     {
         return collect($strings)->map(fn($str) => trim($str))
             ->unique()
-            ->map(fn($str) => Country::firstOrCreate(["name"=>$str]));
+            ->map(fn($str) => Country::firstOrCreate(["NAME"=>$str]));
     }
 }
