@@ -3,8 +3,6 @@
 
 This is repo for the back end of [Food Atlas](https://laikathespacedog.github.io/food-atlas/#), a mini web app built with React that combines three of my greatest loves: travel, geography and food!
 
-> Please note this API hasn't been connected to the front end yet and is currently a work in progress.
-
 ## Info
 This API was built using Laravel 8 and is hosted using AWS EC2. The API can be accessed at https://food-atlas.laikathespacedog.co.uk.
 
