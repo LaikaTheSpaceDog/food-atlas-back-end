@@ -32,6 +32,7 @@ class UserCountries extends Controller
     {
         $user = auth()->user();
         $user->setCountries($request->get("countries"));
+        $user->load('countries');
         return new UserCountriesResource($user);
     }
 
